@@ -6,9 +6,8 @@ import ru.clevertec.multithreading.entity.Server;
 public class Runner {
 
     public static void main(String[] args) {
-        int numberOfElements = 10;
-        int numberOfThreads = 10;
-        Client client = new Client(numberOfElements, numberOfThreads);
+        int numberOfElements = 100;
+        Client client = new Client(numberOfElements);
         Server server = new Server();
         client.sendAllRequests(server);
     }

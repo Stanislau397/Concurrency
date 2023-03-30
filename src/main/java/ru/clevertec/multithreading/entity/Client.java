@@ -23,12 +23,12 @@ public class Client {
     private final ExecutorService executorService;
     private final Integer requestsSize;
 
-    public Client(int numberOfElements, int numberOfThreads) {
+    public Client(int numberOfElements) {
         this.requests = IntStream.rangeClosed(1, numberOfElements)
                 .boxed()
                 .collect(Collectors.toList());
         this.accumulator = new AtomicInteger(0);
-        this.executorService = Executors.newFixedThreadPool(numberOfThreads);
+        this.executorService = Executors.newFixedThreadPool(numberOfElements);
         this.requestsSize = numberOfElements;
         this.random = new Random();
         this.locker = new ReentrantLock();
