@@ -10,6 +10,6 @@ public class Runner {
         int numberOfThreads = 8;
         Client client = new Client(numberOfElements, numberOfThreads);
         Server server = new Server();
-        client.sendAllRequests(client.getRequests(), server);
+        client.sendAllRequests(server);
     }
 }
