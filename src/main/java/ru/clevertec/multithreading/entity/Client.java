@@ -48,7 +48,7 @@ public class Client {
     }
 
     @SneakyThrows(InterruptedException.class)
-    public void sendAllRequests(List<Integer> requests, Server server) {
+    public void sendAllRequests(Server server) {
         List<Callable<Integer>> tasks = new ArrayList<>();
         for (int i = 0; i < requestsSize; i++) {
             Callable<Integer> sendRequestCallable = () -> {
@@ -64,5 +64,9 @@ public class Client {
 
     public List<Integer> getRequests() {
         return requests;
+    }
+
+    public AtomicInteger getAccumulator() {
+        return accumulator;
     }
 }
