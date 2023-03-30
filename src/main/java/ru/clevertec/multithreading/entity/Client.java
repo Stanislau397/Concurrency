@@ -48,7 +48,7 @@ public class Client {
     }
 
     @SneakyThrows(InterruptedException.class)
-    public Integer sendAllRequests(List<Integer> requests, Server server) {
+    public void sendAllRequests(List<Integer> requests, Server server) {
         List<Callable<Integer>> tasks = new ArrayList<>();
         for (int i = 0; i < requestsSize; i++) {
             Callable<Integer> sendRequestCallable = () -> {
@@ -60,7 +60,6 @@ public class Client {
         }
         executorService.invokeAll(tasks);
         executorService.shutdown();
-        return accumulator.get();
     }
 
     public List<Integer> getRequests() {
