@@ -1,44 +1,35 @@
 package ru.clevertec.multithreading.entity;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class ClientTest {
 
-    private static final Integer NUMBER_OF_ELEMENTS = 10;
-    private static final Integer NUMBER_OF_THREADS = 10;
-    private Client client;
-    private Server server;
+    private static final Integer NUMBER_OF_ELEMENTS = 100;
+    private static Client client;
+    private static Server server;
 
-    @BeforeEach
-    void setUp() {
-        client = new Client(NUMBER_OF_ELEMENTS, NUMBER_OF_THREADS);
+    @BeforeAll
+    static void setUp() {
+        client = new Client(NUMBER_OF_ELEMENTS);
         server = new Server();
-    }
-
-    @AfterEach
-    void tierDown() {
-        client = null;
-        server = null;
+        client.sendAllRequests(server);
     }
 
     @Test
     void checkSendAllRequestsShouldReturnAccumulator() {
-        int expectedAccumulator = 55;
+        int expectedAccumulator = (1 + NUMBER_OF_ELEMENTS) * (NUMBER_OF_ELEMENTS / 2);
 
-        int actualAccumulator = client.sendAllRequests(client.getRequests(), server);
+        int actualAccumulator = client.getAccumulator().get();
 
         assertThat(actualAccumulator).isEqualTo(expectedAccumulator);
     }
 
     @Test
-    void checkSendAllRequestsShouldReturnCorrectSizeForResponseList() {
-        int expectedSize = 10;
-
-        client.sendAllRequests(client.getRequests(), server);
+    void checkSendAllRequestsShouldReturnResponsesListWithExpectedNumberOfElements() {
+        int expectedSize = NUMBER_OF_ELEMENTS;
 
         int actualSize = server.getServerResponses().size();
 
@@ -46,10 +37,8 @@ class ClientTest {
     }
 
     @Test
-    void checkSendAllRequestsShouldReturnEmptyRequestsList() {
+    void checkSendAllRequestsShouldReturnRequestsListWithZeroElements() {
         int expectedSize = 0;
-
-        client.sendAllRequests(client.getRequests(), server);
 
         int actualSize = client.getRequests().size();
 

@@ -23,12 +23,12 @@ public class Client {
     private final ExecutorService executorService;
     private final Integer requestsSize;
 
-    public Client(int numberOfElements, int numberOfThreads) {
+    public Client(int numberOfElements) {
         this.requests = IntStream.rangeClosed(1, numberOfElements)
                 .boxed()
                 .collect(Collectors.toList());
         this.accumulator = new AtomicInteger(0);
-        this.executorService = Executors.newFixedThreadPool(numberOfThreads);
+        this.executorService = Executors.newFixedThreadPool(numberOfElements);
         this.requestsSize = numberOfElements;
         this.random = new Random();
         this.locker = new ReentrantLock();
@@ -48,7 +48,7 @@ public class Client {
     }
 
     @SneakyThrows(InterruptedException.class)
-    public Integer sendAllRequests(List<Integer> requests, Server server) {
+    public void sendAllRequests(Server server) {
         List<Callable<Integer>> tasks = new ArrayList<>();
         for (int i = 0; i < requestsSize; i++) {
             Callable<Integer> sendRequestCallable = () -> {
@@ -60,10 +60,13 @@ public class Client {
         }
         executorService.invokeAll(tasks);
         executorService.shutdown();
-        return accumulator.get();
     }
 
     public List<Integer> getRequests() {
         return requests;
+    }
+
+    public AtomicInteger getAccumulator() {
+        return accumulator;
     }
 }
