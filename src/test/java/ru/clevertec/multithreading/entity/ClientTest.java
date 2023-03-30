@@ -1,34 +1,26 @@
 package ru.clevertec.multithreading.entity;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class ClientTest {
 
-    private static final Integer NUMBER_OF_ELEMENTS = 10;
-    private Client client;
-    private Server server;
+    private static final Integer NUMBER_OF_ELEMENTS = 100;
+    private static Client client;
+    private static Server server;
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    static void setUp() {
         client = new Client(NUMBER_OF_ELEMENTS);
         server = new Server();
-    }
-
-    @AfterEach
-    void tierDown() {
-        client = null;
-        server = null;
+        client.sendAllRequests(server);
     }
 
     @Test
     void checkSendAllRequestsShouldReturnAccumulator() {
         int expectedAccumulator = (1 + NUMBER_OF_ELEMENTS) * (NUMBER_OF_ELEMENTS / 2);
-
-        client.sendAllRequests(server);
 
         int actualAccumulator = client.getAccumulator().get();
 
@@ -36,10 +28,8 @@ class ClientTest {
     }
 
     @Test
-    void checkSendAllRequestsShouldReturnResponsesListWith10Elements() {
-        int expectedSize = 10;
-
-        client.sendAllRequests(server);
+    void checkSendAllRequestsShouldReturnResponsesListWithExpectedNumberOfElements() {
+        int expectedSize = NUMBER_OF_ELEMENTS;
 
         int actualSize = server.getServerResponses().size();
 
@@ -49,8 +39,6 @@ class ClientTest {
     @Test
     void checkSendAllRequestsShouldReturnRequestsListWithZeroElements() {
         int expectedSize = 0;
-
-        client.sendAllRequests(server);
 
         int actualSize = client.getRequests().size();
 

@@ -7,6 +7,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class ServerTest {
 
+    private static final Integer MIN_DELAY = 100;
+    private static final Integer MAX_DELAY = 1000;
     private Server server;
 
     @BeforeEach
@@ -36,5 +38,23 @@ class ServerTest {
         int actualValue = server.getServerResponses().get(0);
 
         assertThat(actualValue).isEqualTo(expectedValue);
+    }
+
+    @Test
+    void checkGenerateDelayShouldReturnValueGreaterOrEqualToMin() {
+        int delay = server.generateDelay(MIN_DELAY, MAX_DELAY);
+
+        boolean condition = delay >= MIN_DELAY;
+
+        assertThat(condition).isTrue();
+    }
+
+    @Test
+    void checkGenerateDelayShouldReturnValueLessOrEqualToMax() {
+        int delay = server.generateDelay(MIN_DELAY, MAX_DELAY);
+
+        boolean condition = delay <= MAX_DELAY;
+
+        assertThat(condition).isTrue();
     }
 }
