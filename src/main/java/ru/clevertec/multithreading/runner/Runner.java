@@ -7,8 +7,7 @@ public class Runner {
 
     public static void main(String[] args) {
         int numberOfElements = 100;
-        int numberOfThreads = 8;
-        Client client = new Client(numberOfElements, numberOfThreads);
+        Client client = new Client(numberOfElements);
         Server server = new Server();
         client.sendAllRequests(server);
     }

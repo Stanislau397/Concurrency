@@ -9,13 +9,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class ClientTest {
 
     private static final Integer NUMBER_OF_ELEMENTS = 10;
-    private static final Integer NUMBER_OF_THREADS = 10;
     private Client client;
     private Server server;
 
     @BeforeEach
     void setUp() {
-        client = new Client(NUMBER_OF_ELEMENTS, NUMBER_OF_THREADS);
+        client = new Client(NUMBER_OF_ELEMENTS);
         server = new Server();
     }
 
