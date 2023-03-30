@@ -27,18 +27,20 @@ class ClientTest {
 
     @Test
     void checkSendAllRequestsShouldReturnAccumulator() {
-        int expectedAccumulator = 55;
+        int expectedAccumulator = (1 + NUMBER_OF_ELEMENTS) * (NUMBER_OF_ELEMENTS / 2);
 
-        int actualAccumulator = client.sendAllRequests(client.getRequests(), server);
+        client.sendAllRequests(server);
+
+        int actualAccumulator = client.getAccumulator().get();
 
         assertThat(actualAccumulator).isEqualTo(expectedAccumulator);
     }
 
     @Test
-    void checkSendAllRequestsShouldReturnCorrectSizeForResponseList() {
+    void checkSendAllRequestsShouldReturnResponsesListWith10Elements() {
         int expectedSize = 10;
 
-        client.sendAllRequests(client.getRequests(), server);
+        client.sendAllRequests(server);
 
         int actualSize = server.getServerResponses().size();
 
@@ -46,10 +48,10 @@ class ClientTest {
     }
 
     @Test
-    void checkSendAllRequestsShouldReturnEmptyRequestsList() {
+    void checkSendAllRequestsShouldReturnRequestsListWithZeroElements() {
         int expectedSize = 0;
 
-        client.sendAllRequests(client.getRequests(), server);
+        client.sendAllRequests(server);
 
         int actualSize = client.getRequests().size();
 

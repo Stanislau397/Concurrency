@@ -1,7 +1,6 @@
 package ru.clevertec.multithreading.entity;
 
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +9,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-@Slf4j
 public class Server {
 
     private static final Integer MIN_DELAY = 100;
